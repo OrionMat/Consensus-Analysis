@@ -1,0 +1,14 @@
+{
+	"key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDcBHwzDvyBQ6bDppkIs9MP4ksKqCMyXQ/A52JivHZKh4YO/9vJsT3oaYhSpDCE9RPocOEQvwsHsFReW2nUEc6OLLyoCFFxIb7KkLGsmfakkut/fFdNJYh0xOTbSN8YvLWcqph09XAY2Y/f0AL7vfO1cuCqtkMt8hFrBGWxDdf9CQIDAQAB",
+    "name": "NativeMessaging API",
+	"description": "chrome native messaging API example",
+    "version": "1.0",
+    "manifest_version": 2,
+	"permissions": [
+		"nativeMessaging"
+	],
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": false
+	}
+}

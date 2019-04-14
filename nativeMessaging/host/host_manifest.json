@@ -1,0 +1,9 @@
+{
+    "name": "host_manifest",
+    "description": "chrome native messaging API example host",
+    "path": "native_host_runner.bat",
+    "type": "stdio",
+    "allowed_origins": [
+      "chrome-extension://knldjmfmopnpolahpmmgbagdohdnhkik/"
+    ]
+}
