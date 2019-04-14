@@ -1,6 +1,8 @@
 import sys
 import json
 import struct
+import data_saving as save_to_CSV
+import news_web_scraping
 
 
 # Function to send a message to chrome.
@@ -18,12 +20,65 @@ def read_message():
     text_dict = json.loads(text_decoded)
     return text_dict
 
-test = {"name": "response1", "text": "Hello, Orion's extension."}
+query_dict = read_message()
+query = query_dict['text']
+#query = "Can Trump declare a national emergency to build a wall?"
 
-read_dict = read_message()
-send_message(test)
+
+
+# %% query seach and save to CSV
+csv_file_path = 'consensus_data.csv'
+csv_columns = ['agency', 'title', 'date', 'article', 'link']
+save_to_CSV.initiate_csv(csv_file_path, csv_columns)
+send_message({"name": "response", "text": "initiated CSV file"})
+
+# NYT:
+url_list, date_list = news_web_scraping.google_NYT_links(query)
+title_list, article_list = news_web_scraping.NYT_links_scrape(url_list)
+#for idx in range(len(title_list)):
+#    print(date_list[idx], "  :  ", title_list[idx], "  :  ", url_list[idx])
+#    print(article_list[idx][0:50], '\n')
+if title_list and date_list and article_list and url_list:
+    news_dicList = save_to_CSV.lists_to_dictList('NYT', title_list, date_list, article_list, url_list)
+    save_to_CSV.append_csv(csv_file_path, csv_columns, news_dicList) 
+send_message({"name": "response", "text": "written NYT results"})
+
+# BBC:
+url_list = news_web_scraping.google_BBC_links(query)
+title_list, article_list, date_list = news_web_scraping.BBC_links_scrape(url_list)
+#for idx in range(len(title_list)):
+#    print(date_list[idx], "  :  ", title_list[idx], "  :  ", url_list[idx])
+#    print(article_list[idx][0:50], '\n')
+if title_list and date_list and article_list and url_list:
+    news_dicList = save_to_CSV.lists_to_dictList('BBC', title_list, date_list, article_list, url_list)
+    save_to_CSV.append_csv(csv_file_path, csv_columns, news_dicList)   
+send_message({"name": "response", "text": "written BBC results"})
+
+# AP:
+url_list = news_web_scraping.google_AP_links(query)
+title_list, article_list, date_list = news_web_scraping.AP_links_scrape(url_list)
+#for idx in range(len(title_list)):
+#    print(date_list[idx], "  :  ", title_list[idx], "  :  ", url_list[idx])
+#    print(article_list[idx][0:50], '\n')
+if title_list and date_list and article_list and url_list:
+    news_dicList = save_to_CSV.lists_to_dictList('AP', title_list, date_list, article_list, url_list)
+    save_to_CSV.append_csv(csv_file_path, csv_columns, news_dicList)   
+send_message({"name": "response", "text": "written AP results"})
+
+# Reuters:
+url_list = news_web_scraping.google_reuters_links(query)
+title_list, article_list, date_list = news_web_scraping.reuters_links_scrape(url_list)
+#for idx in range(len(title_list)):
+#    print(date_list[idx], "  :  ", title_list[idx], "  :  ", url_list[idx])
+#    print(article_list[idx][0:50], '\n')
+if title_list and date_list and article_list and url_list:
+    news_dicList = save_to_CSV.lists_to_dictList('reuters', title_list, date_list, article_list, url_list)
+    save_to_CSV.append_csv(csv_file_path, csv_columns, news_dicList) 
+send_message({"name": "response", "text": "written reuters results"})
+
 
 file_obj = open("check.txt ", 'a')
-file_obj.write("hello all worlds\n")
-file_obj.write(str(read_dict))
+file_obj.write("query check")
 file_obj.write("\n")
+file_obj.write(query)
+file_obj.close()
