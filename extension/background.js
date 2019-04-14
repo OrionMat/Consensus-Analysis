@@ -5,22 +5,6 @@ setTimeout(function(){
 
 setTimeout(function(){
     console.log("Time: 10s");
-    }, 10000
-    );
-
-setTimeout(function(){
-    console.log("Time: 15s");
-    }, 15000
-    );
-
-setTimeout(function(){
-    console.log("Time: 20s");
-    }, 20000
-    );
-
-
-setTimeout(function(){
-    console.log("Time: 25s");
     var port = chrome.runtime.connectNative('host_manifest'); // runs python script
 
     port.onMessage.addListener(function(msg) {
@@ -31,20 +15,20 @@ setTimeout(function(){
       console.log("Disconnected");
     });
 
-    port.postMessage({ text: "Hello, my_application" });
+    port.postMessage({ text: "Hello, my_application. you boii" });
     console.log("Attempted to send to host.")
-    }, 25000
+    }, 10000
     );
 
 
 setTimeout(function(){
-    console.log("Time: 30s");
-    }, 30000
+    console.log("Time: 15s");
+    }, 15000
     );
 
 
 setTimeout(function(){
-    console.log("Time: 35s");
+    console.log("Time: 20s");
     var port = chrome.runtime.connectNative('host_manifest');
 
     port.onMessage.addListener(function(msg) {
@@ -57,11 +41,11 @@ setTimeout(function(){
 
     port.postMessage({ text: "Hello, my_application" });
     console.log("Attempted to send to host.")
-    }, 35000
+    }, 20000
     );
 
 
 setTimeout(function(){
-    console.log("Time: 40s");
-    }, 40000
+    console.log("Time: 25s");
+    }, 25000
     );
