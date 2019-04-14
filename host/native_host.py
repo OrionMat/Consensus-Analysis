@@ -1,4 +1,3 @@
-#print("hello world")
 import sys
 import json
 import struct
@@ -21,5 +20,10 @@ def read_message():
 
 test = {"name": "response1", "text": "Hello, Orion's extension."}
 
-read_message()
+read_dict = read_message()
 send_message(test)
+
+file_obj = open("check.txt ", 'a')
+file_obj.write("hello all worlds\n")
+file_obj.write(str(read_dict))
+file_obj.write("\n")
