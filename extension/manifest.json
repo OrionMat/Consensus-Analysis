@@ -5,8 +5,12 @@
     "version": "1.0",
     "manifest_version": 2,
 	"permissions": [
-		"nativeMessaging"
+		"nativeMessaging",
+		"contextMenus"
 	],
+	"browser_action": {
+		"default_icon": "blueTick.png"
+	},
 	"background": {
 		"scripts": ["background.js"],
 		"persistent": false
