@@ -6,13 +6,17 @@
     "manifest_version": 2,
 	"permissions": [
 		"nativeMessaging",
-		"contextMenus"
+		"contextMenus",
+		"storage",
+		"notifications"
 	],
 	"browser_action": {
-		"default_icon": "blueTick.png"
+		"default_icon": "blueTick.png",
+		"default_popup": "popup.html"
 	},
 	"background": {
 		"scripts": ["background.js"],
 		"persistent": false
-	}
+	},
+	"options_page" : "options.html"
 }
