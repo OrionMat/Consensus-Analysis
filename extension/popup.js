@@ -4,3 +4,11 @@ $(function(){
         $('#title').text(result.title);
     });
 });
+
+// create a notification
+// chrome.notifications.create('tester', {
+//     type: 'basic',
+//     iconUrl: 'blueTick.png',
+//     title: 'This makes a sound',
+//     message: 'and it appears in the browser!'
+// }, function(notificationId) {});

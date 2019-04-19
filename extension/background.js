@@ -3,7 +3,6 @@ var contextMenuItem = {
   "title" : "Check Statement",
   "contexts" : ["selection"]
 };
-
 chrome.contextMenus.create(contextMenuItem)
 
 function is_valid_statement(text){
@@ -26,9 +25,15 @@ chrome.contextMenus.onClicked.addListener(function(clickedData){
       console.log("Attempted to send to host.")
     }
   }
-})
+});
 
-//setTimeout(function(){
-//    console.log("Time: 5s");
-//    }, 5000
-//    );
+chrome.storage.onChanged.addListener(function(changes, storageName){
+  // create a notification
+  var notifOptions = {
+    type: "basic",
+    iconUrl: "blueTick.png",
+    title: "Done!",
+    message: "The results are in, check em out."
+  };
+  chrome.notifications.create('doneNotif', notifOptions);
+});
