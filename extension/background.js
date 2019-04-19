@@ -17,6 +17,7 @@ chrome.contextMenus.onClicked.addListener(function(clickedData){
       var port = chrome.runtime.connectNative('host_manifest'); // runs python script
       port.onMessage.addListener(function(msg) {
         console.log("Received: " + msg.text);
+        chrome.storage.sync.set({'title': msg.text}); // new
       });
       port.onDisconnect.addListener(function() {
         console.log("Disconnected");
