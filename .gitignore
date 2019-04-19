@@ -2,3 +2,5 @@ host/consensus_data.csv
 host/check.txt
 host/.google-cookie
 get-selected-text-send-to-web-server-in-chrome-extension-communicate-between-content-script-and-background-page
+test.js
+extension/blueTick.png
