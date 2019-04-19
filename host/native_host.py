@@ -72,13 +72,9 @@ title_list, article_list, date_list = news_web_scraping.reuters_links_scrape(url
 #    print(date_list[idx], "  :  ", title_list[idx], "  :  ", url_list[idx])
 #    print(article_list[idx][0:50], '\n')
 if title_list and date_list and article_list and url_list:
-    news_dicList = save_to_CSV.lists_to_dictList('reuters', title_list, date_list, article_list, url_list)
+    news_dicList = save_to_CSV.lists_to_dictList('Reuters', title_list, date_list, article_list, url_list)
     save_to_CSV.append_csv(csv_file_path, csv_columns, news_dicList) 
 send_message({"name": "response", "text": "written reuters results"})
 
 
-file_obj = open("check.txt ", 'a')
-file_obj.write("query check")
-file_obj.write("\n")
-file_obj.write(query)
-file_obj.close()
+send_message({"name": "response", "text": title_list[0]})
