@@ -1,12 +1,41 @@
 $(function(){
-    // gets title value to display when popup opened
-    chrome.storage.sync.get('title', function(result){ // can change to array to get more than just title i.e ['title', 'link']
-        $('#title').text(result.title);
-    });
 
+    // displays the statement that is being searched
+    // gets statement value from storage to display when popup opened
     chrome.storage.sync.get('statement', function(result){ // can change to array to get more than just title i.e ['title', 'link']
         $('#statementTitle').text(result.statement);
     });
+
+    // gisplays an article title in the tabel
+    // gets title value from storage to display when popup opened
+    // chrome.storage.sync.get('title', function(result){ // can change to array to get more than just title i.e ['title', 'link']
+    //     $('#title').text(result.title);
+    // });
+
+    // gets number of articles from storage
+    chrome.storage.sync.get('numArticles', function(result){
+        var numArticles = result.numArticles; 
+        $('#artNum').text(numArticles);
+
+        var tableHead = "<table><tr><th>Agency</th><th>Article</th><th>Date</th><th>Result</th><th>Link</th></tr>";
+        var tableMid = ""
+        var tableEnd = "</table>";
+
+        var i;
+        for(i = 0; i < numArticles; i++) {
+            tableMid += "<tr>"
+            tableMid += "<td id=\"agency" + i.toString() + "\">ag</td>";
+            tableMid += "<td id=\"title" + i.toString() + "\">tit</td>";
+            tableMid += "<td id=\"date" + i.toString() + "\">dat</td>";
+            tableMid += "<td id=\"result" + i.toString() + "\">res</td>";
+            tableMid += "<td id=\"link" + i.toString() + "\">lin</td>";
+            tableMid += "</tr>"
+        }
+        
+        var summaryTable = tableHead + tableMid + tableEnd;
+        $('#tablePrint').html(summaryTable);
+    });
+
 });
 
 // create a notification
