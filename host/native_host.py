@@ -74,7 +74,7 @@ title_list, article_list, date_list = news_web_scraping.reuters_links_scrape(url
 if title_list and date_list and article_list and url_list:
     news_dicList = save_to_CSV.lists_to_dictList('Reuters', title_list, date_list, article_list, url_list)
     save_to_CSV.append_csv(csv_file_path, csv_columns, news_dicList) 
-send_message({"name": "response", "text": "written reuters results"})
+send_message({"name": "response", "text": "written reuters results", "numReuters": len(title_list)})
 
-
-send_message({"name": "response", "text": title_list[0]})
+for idx in range(len(title_list)):
+    send_message({"name": "title" + str(idx), "text": title_list[idx]})
