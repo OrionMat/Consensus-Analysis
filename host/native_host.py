@@ -76,7 +76,16 @@ if R_title_list and R_date_list and R_article_list and R_url_list:
     save_to_CSV.append_csv(csv_file_path, csv_columns, news_dicList) 
 send_message({"name": "response", "text": "written reuters results"})
     
+
+
+
+
+NYT_json_titles = json.dumps(NYT_title_list)
+BBC_json_titles = json.dumps(BBC_title_list)
+AP_json_titles = json.dumps(AP_title_list)
 R_json_titles = json.dumps(R_title_list)
+numArticles = len(NYT_title_list) + len(BBC_title_list) + len(AP_title_list) + len(R_title_list)
+send_message({"name" : "articleNumbers", "text" : "sending number of articles", "numArticles" : str(numArticles)})
 send_message({"name" : "reuters", "text" : "sending reuters", "titles" : R_json_titles})
 
 # for idx in range(len(title_list)):

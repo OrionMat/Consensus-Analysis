@@ -18,12 +18,13 @@ chrome.contextMenus.onClicked.addListener(function(clickedData){
       port.onMessage.addListener(function(msg) {
         console.log("Received: " + msg.text);
         console.log("Received name: " + msg.name);
+        console.log("Received num: " + msg.numArticles);
         if(msg.name == "reuters"){
           console.log("here!!");
           console.log(msg.titles)
           chrome.storage.sync.set({"reutersTitles" : msg.titles});
         }
-        chrome.storage.sync.set({'numArticles': "7"}); 
+        chrome.storage.sync.set({'numArticles': msg.numArticles}); 
       });
       port.onDisconnect.addListener(function() {
         console.log("Disconnected");

@@ -34,7 +34,11 @@ $(function(){
     // gets title value from storage to display when popup opened
     chrome.storage.sync.get('reutersTitles', function(result){ // can change to array to get more than just title i.e ['title', 'link']
         json_arr = JSON.parse(result.reutersTitles)
-        $('#title0').text(json_arr[0]);
+        var i;
+        for(i = 0; i<json_arr.length; i++){
+            $('#title' + String(i)).text(json_arr[i]);
+        }
+        // $('#title0').text(json_arr[0]);
         //$('#title1').text(result.reutersTitles[1]);
     });
 
