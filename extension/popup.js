@@ -6,12 +6,6 @@ $(function(){
         $('#statementTitle').text(result.statement);
     });
 
-    // gisplays an article title in the tabel
-    // gets title value from storage to display when popup opened
-    // chrome.storage.sync.get('title', function(result){ // can change to array to get more than just title i.e ['title', 'link']
-    //     $('#title').text(result.title);
-    // });
-
     // gets number of articles from storage
     chrome.storage.sync.get('numArticles', function(result){
         var numArticles = result.numArticles; 
@@ -34,6 +28,13 @@ $(function(){
         
         var summaryTable = tableHead + tableMid + tableEnd;
         $('#tablePrint').html(summaryTable);
+    });
+
+    // displays an article title in the tabel
+    // gets title value from storage to display when popup opened
+    chrome.storage.sync.get(['title0', 'title1'], function(result){ // can change to array to get more than just title i.e ['title', 'link']
+        $('#title0').text(result.title0);
+        $('#title1').text(result.title1);
     });
 
 });
