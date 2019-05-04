@@ -18,6 +18,8 @@ chrome.contextMenus.onClicked.addListener(function(clickedData){
       port.onMessage.addListener(function(msg) {
         console.log("Received: " + msg.text);
         chrome.storage.sync.set({'title': msg.text});
+
+        chrome.storage.sync.set({'numArticles': "7"});
       });
       port.onDisconnect.addListener(function() {
         console.log("Disconnected");
