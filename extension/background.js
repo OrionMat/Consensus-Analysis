@@ -13,10 +13,11 @@ function is_valid_statement(text){
 chrome.contextMenus.onClicked.addListener(function(clickedData){
   if (clickedData.menuItemId == "check_statement" && clickedData.selectionText){
     if (is_valid_statement(clickedData.selectionText)){
+      chrome.storage.sync.set({'statement': clickedData.selectionText});
       var port = chrome.runtime.connectNative('host_manifest'); // runs python script
       port.onMessage.addListener(function(msg) {
         console.log("Received: " + msg.text);
-        chrome.storage.sync.set({'title': msg.text}); // new
+        chrome.storage.sync.set({'title': msg.text});
       });
       port.onDisconnect.addListener(function() {
         console.log("Disconnected");
@@ -36,4 +37,5 @@ chrome.storage.onChanged.addListener(function(changes, storageName){
     message: "The results are in, check em out."
   };
   chrome.notifications.create('doneNotif', notifOptions);
+  //alert("Done!")
 });
