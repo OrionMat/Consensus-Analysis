@@ -84,9 +84,12 @@ NYT_json_titles = json.dumps(NYT_title_list)
 BBC_json_titles = json.dumps(BBC_title_list)
 AP_json_titles = json.dumps(AP_title_list)
 R_json_titles = json.dumps(R_title_list)
-numArticles = len(NYT_title_list) + len(BBC_title_list) + len(AP_title_list) + len(R_title_list)
-send_message({"name" : "articleNumbers", "text" : "sending number of articles", "numArticles" : str(numArticles)})
-send_message({"name" : "reuters", "text" : "sending reuters", "titles" : R_json_titles})
+titles_list = NYT_title_list + BBC_title_list + AP_title_list + R_title_list
+titles = json.dumps(titles_list) 
+numArticles = len(titles_list)
+
+send_message({"name" : "articleTitles", "text" : "sending titles of articles", "numArticles" : str(numArticles), "titles" : titles})
+# send_message({"name" : "reuters", "text" : "sending reuters", "titles" : R_json_titles})
 
 # for idx in range(len(title_list)):
 #     send_message({"name": "title" + str(idx), "text": title_list[idx]})
