@@ -32,11 +32,14 @@ $(function(){
 
     // displays an article title in the tabel
     // gets title value from storage to display when popup opened
-    chrome.storage.sync.get(['titles'], function(result){ // can change to array to get more than just title i.e ['title', 'link']
-        json_arr = JSON.parse(result.titles)
+    chrome.storage.sync.get(['titles', 'dates'], function(result){ // can change to array to get more than just title i.e ['title', 'link']
+        titles_array = JSON.parse(result.titles)
+        dates_array = JSON.parse(result.dates)
+
         var i;
-        for(i = 0; i<json_arr.length; i++){
-            $('#title' + String(i)).text(json_arr[i]);
+        for(i = 0; i<titles_array.length; i++){
+            $('#title' + String(i)).text(titles_array[i]);
+            $('#date' + String(i)).text(dates_array[i]);
         }
         // $('#title0').text(json_arr[0]);
         //$('#title1').text(result.reuterstitles[1]);

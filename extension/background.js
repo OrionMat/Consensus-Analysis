@@ -23,6 +23,10 @@ chrome.contextMenus.onClicked.addListener(function(clickedData){
           console.log(msg.titles)
           chrome.storage.sync.set({"titles" : msg.titles});
         }
+        if(msg.name == "articleDates"){
+          console.log(msg.dates)
+          chrome.storage.sync.set({"dates" : msg.dates});
+        }
       });
 
       port.onDisconnect.addListener(function() {

@@ -79,16 +79,18 @@ send_message({"name": "response", "text": "written reuters results"})
 
 
 
-
-NYT_json_titles = json.dumps(NYT_title_list)
-BBC_json_titles = json.dumps(BBC_title_list)
-AP_json_titles = json.dumps(AP_title_list)
-R_json_titles = json.dumps(R_title_list)
+# agencies_list = NYT_agency_list + BBC_agency_list + AP_agency_list + R_agency_list
 titles_list = NYT_title_list + BBC_title_list + AP_title_list + R_title_list
+date_list = NYT_date_list + BBC_date_list + AP_date_list + R_date_list
+
 titles = json.dumps(titles_list) 
+dates = json.dumps(date_list)
+
 numArticles = len(titles_list)
 
+# send_message({"name" : "articleAgencies", "text" : "sending agencies articles", "numArticles" : str(numArticles), "agencies" : agencies})
 send_message({"name" : "articleTitles", "text" : "sending titles of articles", "numArticles" : str(numArticles), "titles" : titles})
+send_message({"name" : "articleDates", "text" : "sending dates of articles", "dates" : dates})
 # send_message({"name" : "reuters", "text" : "sending reuters", "titles" : R_json_titles})
 
 # for idx in range(len(title_list)):
