@@ -18,7 +18,9 @@ chrome.contextMenus.onClicked.addListener(function(clickedData){
       var port = chrome.runtime.connectNative('host_manifest'); // runs python script
 
       port.onMessage.addListener(function(msg) {
-        chrome.storage.sync.set({'numArticles': msg.numArticles}); 
+        chrome.storage.sync.set({'num_Articles': msg.num_Articles}); 
+        chrome.storage.sync.set({'agencies': msg.agencies}); 
+
         if(msg.name == "articleTitles"){
           console.log(msg.titles)
           chrome.storage.sync.set({"titles" : msg.titles});
