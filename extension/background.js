@@ -18,19 +18,19 @@ chrome.contextMenus.onClicked.addListener(function(clickedData){
       var port = chrome.runtime.connectNative('host_manifest'); // runs python script
 
       port.onMessage.addListener(function(msg) {
-        chrome.storage.sync.set({'num_Articles': msg.num_Articles}); 
-        chrome.storage.sync.set({'agencies': msg.agencies}); 
-
+        if(msg.name == 'articleNumbers'){
+          chrome.storage.sync.set({'num_Articles': msg.num_Articles}); 
+        }
+        if(msg.name == 'articleAgencies'){
+          chrome.storage.sync.set({'agencies': msg.agencies});
+        }
         if(msg.name == "articleTitles"){
-          console.log(msg.titles)
           chrome.storage.sync.set({"titles" : msg.titles});
         }
         if(msg.name == "articleDates"){
-          console.log(msg.dates)
           chrome.storage.sync.set({"dates" : msg.dates});
         }
         if(msg.name == "articleURLs"){
-          console.log(msg.urls)
           chrome.storage.sync.set({"urls" : msg.urls});
         }
       });

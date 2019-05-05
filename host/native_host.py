@@ -3,6 +3,8 @@ import json
 import struct
 import data_saving as save_to_CSV
 import news_web_scraping
+import csv
+
 
 
 # Function to send a message to chrome.
@@ -33,57 +35,61 @@ save_to_CSV.initiate_csv(csv_file_path, csv_columns)
 send_message({"name": "response", "text": "initiated CSV file"})
 
 # NYT:
-NYT_url_list, NYT_date_list = news_web_scraping.google_NYT_links(query)
-NYT_title_list, NYT_article_list = news_web_scraping.NYT_links_scrape(NYT_url_list)
-if NYT_title_list and NYT_date_list and NYT_article_list and NYT_url_list:
-    news_dicList = save_to_CSV.lists_to_dictList('NYT', NYT_title_list, NYT_date_list, NYT_article_list, NYT_url_list)
+url_list, date_list = news_web_scraping.google_NYT_links(query)
+title_list, article_list = news_web_scraping.NYT_links_scrape(url_list)
+if title_list and date_list and article_list and url_list:
+    news_dicList = save_to_CSV.lists_to_dictList('NYT', title_list, date_list, article_list, url_list)
     save_to_CSV.append_csv(csv_file_path, csv_columns, news_dicList) 
 send_message({"name": "response", "text": "written NYT results"})
 
 # BBC:
-BBC_url_list = news_web_scraping.google_BBC_links(query)
-BBC_title_list, BBC_article_list, BBC_date_list = news_web_scraping.BBC_links_scrape(BBC_url_list)
-if BBC_title_list and BBC_date_list and BBC_article_list and BBC_url_list:
-    news_dicList = save_to_CSV.lists_to_dictList('BBC', BBC_title_list, BBC_date_list, BBC_article_list, BBC_url_list)
+url_list = news_web_scraping.google_BBC_links(query)
+title_list, article_list, date_list = news_web_scraping.BBC_links_scrape(url_list)
+if title_list and date_list and article_list and url_list:
+    news_dicList = save_to_CSV.lists_to_dictList('BBC', title_list, date_list, article_list, url_list)
     save_to_CSV.append_csv(csv_file_path, csv_columns, news_dicList)   
 send_message({"name": "response", "text": "written BBC results"})
 
 # AP:
-AP_url_list = news_web_scraping.google_AP_links(query)
-AP_title_list, AP_article_list, AP_date_list = news_web_scraping.AP_links_scrape(AP_url_list)
-if AP_title_list and AP_date_list and AP_article_list and AP_url_list:
-    news_dicList = save_to_CSV.lists_to_dictList('AP', AP_title_list, AP_date_list, AP_article_list, AP_url_list)
+url_list = news_web_scraping.google_AP_links(query)
+title_list, article_list, date_list = news_web_scraping.AP_links_scrape(url_list)
+if title_list and date_list and article_list and url_list:
+    news_dicList = save_to_CSV.lists_to_dictList('AP', title_list, date_list, article_list, url_list)
     save_to_CSV.append_csv(csv_file_path, csv_columns, news_dicList)   
 send_message({"name": "response", "text": "written AP results"})
 
 # Reuters:
-R_url_list = news_web_scraping.google_reuters_links(query)
-R_title_list, R_article_list, R_date_list = news_web_scraping.reuters_links_scrape(R_url_list)
-if R_title_list and R_date_list and R_article_list and R_url_list:
-    news_dicList = save_to_CSV.lists_to_dictList('Reuters', R_title_list, R_date_list, R_article_list, R_url_list)
+url_list = news_web_scraping.google_reuters_links(query)
+title_list, article_list, date_list = news_web_scraping.reuters_links_scrape(url_list)
+if title_list and date_list and article_list and url_list:
+    news_dicList = save_to_CSV.lists_to_dictList('Reuters', title_list, date_list, article_list, url_list)
     save_to_CSV.append_csv(csv_file_path, csv_columns, news_dicList) 
 send_message({"name": "response", "text": "written reuters results"})
     
 
-
 # read titles and urls from csv file
-titles_list = NYT_title_list + BBC_title_list + AP_title_list + R_title_list
-date_list = NYT_date_list + BBC_date_list + AP_date_list + R_date_list
-url_list = NYT_url_list + BBC_url_list + AP_url_list + R_url_list
+agency_list = []
+titles_list = []
+date_lists = []
+url_list = []
+send_message({"name": "response", "text": "humnahumnahumna"})
+with open('consensus_data.csv', mode='r') as csv_file:
+    send_message({"name": "response", "text": "pass1"})
+    csv_reader = csv.DictReader(csv_file)
+    line_count = 0
+    print(type(csv_reader))
+    for row in csv_reader:
+        agency_list += [row['agency']] 
+        titles_list += [row['title']] 
+        date_lists += [row['date']]
+        url_list += [row['link']]
 
-num_NYT = len(NYT_title_list)
-num_BBC = len(BBC_title_list)
-num_AP = len(AP_title_list)
-num_R = len(R_title_list)
 num_Articles = len(titles_list)
-
-agency_list = ["NYT"]*num_NYT + ["BBC"]*num_BBC + ["AP"]*num_AP + ["R"]*num_R
-
 agencies = json.dumps(agency_list)
 titles = json.dumps(titles_list) 
-dates = json.dumps(date_list)
+dates = json.dumps(date_lists)
 urls = json.dumps(url_list)
-
+send_message({"name": "response", "text": "pass"})
  
 send_message({"name" : "articleNumbers", "text" : "sending numbers of articles", "num_Articles" : str(num_Articles)})
 send_message({"name" : "articleAgencies", "text" : "sending agencies of articles", "agencies" : agencies})

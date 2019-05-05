@@ -48,7 +48,7 @@ $(function(){
                 case 'AP':
                     $('#agency' + String(i)).prepend("<img src=\"images\\AP_image.png\" alt=\"BBC Logo\" width=\"48\" height=\"48\">")
                     break;
-                case 'R':
+                case 'Reuters':
                     $('#agency' + String(i)).prepend("<img src=\"images\\R_image.jpg\" alt=\"BBC Logo\" width=\"48\" height=\"48\">")
                     break;
                 default:
