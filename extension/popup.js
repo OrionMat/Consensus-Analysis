@@ -11,18 +11,17 @@ $(function(){
         var numArticles = result.numArticles; 
         $('#artNum').text(numArticles);
 
-        var tableHead = "<table><tr><th>Agency</th><th>Article</th><th>Date</th><th>Result</th><th>Link</th></tr>";
+        var tableHead = "<table><tr><th>Agency</th><th>Article</th><th>Date</th><th>Result</th></tr>";
         var tableMid = ""
         var tableEnd = "</table>";
 
         var i;
         for(i = 0; i < numArticles; i++) {
             tableMid += "<tr>"
-            tableMid += "<td id=\"agency" + i.toString() + "\">ag</td>";
-            tableMid += "<td id=\"title" + i.toString() + "\">tit</td>";
-            tableMid += "<td id=\"date" + i.toString() + "\">dat</td>";
-            tableMid += "<td id=\"result" + i.toString() + "\">res</td>";
-            tableMid += "<td id=\"link" + i.toString() + "\">lin</td>";
+            tableMid += "<td id=\"agency" + i.toString() + "\"> <img src=\"images\\BBC_image.png\" alt=\"BBC Logo\" width=\"48\" height=\"48\"> </td>";
+            tableMid += "<td><a id=\"title" + i.toString() + "\" href=\"\"  target=\"_blank\"></a></td>";
+            tableMid += "<td id=\"date" + i.toString() + "\"></td>";
+            tableMid += "<td id=\"result" + i.toString() + "\"></td>";
             tableMid += "</tr>"
         }
         
@@ -32,14 +31,17 @@ $(function(){
 
     // displays an article title in the tabel
     // gets title value from storage to display when popup opened
-    chrome.storage.sync.get(['titles', 'dates'], function(result){ // can change to array to get more than just title i.e ['title', 'link']
-        titles_array = JSON.parse(result.titles)
-        dates_array = JSON.parse(result.dates)
+    chrome.storage.sync.get(['titles', 'dates', 'urls'], function(result){ // can change to array to get more than just title i.e ['title', 'link']
+        title_array = JSON.parse(result.titles)
+        date_array = JSON.parse(result.dates)
+        url_array = JSON.parse(result.urls)
 
         var i;
-        for(i = 0; i<titles_array.length; i++){
-            $('#title' + String(i)).text(titles_array[i]);
-            $('#date' + String(i)).text(dates_array[i]);
+        for(i = 0; i<title_array.length; i++){
+            // $('#agency' + String(i)).text();
+            $('#title' + String(i)).attr("href", url_array[i]);
+            $('#title' + String(i)).text(title_array[i]);
+            $('#date' + String(i)).text(date_array[i]);
         }
         // $('#title0').text(json_arr[0]);
         //$('#title1').text(result.reuterstitles[1]);
@@ -50,7 +52,7 @@ $(function(){
 // create a notification
 // chrome.notifications.create('tester', {
 //     type: 'basic',
-//     iconUrl: 'blueTick.png',
+//     iconUrl: 'images/blueTick.png',
 //     title: 'This makes a sound',
 //     message: 'and it appears in the browser!'
 // }, function(notificationId) {});

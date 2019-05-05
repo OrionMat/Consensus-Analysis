@@ -27,6 +27,10 @@ chrome.contextMenus.onClicked.addListener(function(clickedData){
           console.log(msg.dates)
           chrome.storage.sync.set({"dates" : msg.dates});
         }
+        if(msg.name == "articleURLs"){
+          console.log(msg.urls)
+          chrome.storage.sync.set({"urls" : msg.urls});
+        }
       });
 
       port.onDisconnect.addListener(function() {
@@ -42,7 +46,7 @@ chrome.storage.onChanged.addListener(function(changes, storageName){
   // create a notification
   var notifOptions = {
     type: "basic",
-    iconUrl: "blueTick.png",
+    iconUrl: "images/blueTick.png",
     title: "Done!",
     message: "The results are in, check em out."
   };
