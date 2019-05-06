@@ -33,6 +33,10 @@ chrome.contextMenus.onClicked.addListener(function(clickedData){
         if(msg.name == "articleURLs"){
           chrome.storage.sync.set({"urls" : msg.urls});
         }
+        if(msg.name == "articleResults"){
+          console.log(msg.results)
+          chrome.storage.sync.set({"results" : msg.results})
+        }
       });
 
       port.onDisconnect.addListener(function() {
