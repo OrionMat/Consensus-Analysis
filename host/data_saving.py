@@ -55,4 +55,34 @@ def lists_to_dictList(agency, title_list, date_list, article_list, url_list):
     return dic_list
 
 
+def format_art_bodies(consensus_data, art_bodies, statement_file, statement):
+    # read article bodies from csv file
+    article_list = []
+    with open(consensus_data, mode='r', errors='ignore') as csv_file: 
+        csv_reader = csv.DictReader(csv_file)
+        for row in csv_reader:
+            article_list += [row['article']] 
 
+    # write article bodies with ID to art_bodies.csv
+    try:
+        with open(art_bodies, 'w') as csv_file:
+
+            writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            writer.writerow(['Body ID', 'articleBody'])
+            idx = 1
+            for article in article_list:
+                writer.writerow([str(idx), article])
+                idx += 1
+    except IOError:
+        print("I/O error")
+
+    # write article statement with ID to statement.csv
+    try:
+        with open(statement_file, 'w') as csv_file:
+
+            writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            writer.writerow(['Headline', 'Body ID'])
+            for idx in range(len(article_list)):
+                writer.writerow([statement, str(idx+1)])
+    except IOError:
+        print("I/O error")
