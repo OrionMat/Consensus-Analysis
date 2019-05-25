@@ -68,18 +68,14 @@ if title_list and date_list and article_list and url_list:
 send_message({"name": "response", "text": "written reuters results"})
     
 
-# read titles and urls from csv file
+# read agency, title, date and url from csv file
 agency_list = []
 titles_list = []
 date_lists = []
 url_list = []
 result_list = []
-send_message({"name": "response", "text": "humnahumnahumna"})
 with open('consensus_data.csv', mode='r') as csv_file:
-    send_message({"name": "response", "text": "pass1"})
     csv_reader = csv.DictReader(csv_file)
-    line_count = 0
-    print(type(csv_reader))
     for row in csv_reader:
         agency_list += [row['agency']] 
         titles_list += [row['title']] 
