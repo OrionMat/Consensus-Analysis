@@ -14,7 +14,6 @@ host/train_stances.csv
 host/__pycache__/data_saving.cpython-35.pyc
 host/__pycache__/data_saving.cpython-36.pyc
 host/__pycache__/news_web_scraping.cpython-35.pyc
-host/__pycache__/news_web_scraping.cpython-36.pyc
 host/__pycache__/util.cpython-35.pyc
 host/__pycache__/util.cpython-36.pyc
 host/model/checkpoint
@@ -22,3 +21,9 @@ host/model/model.checkpoint.data-00000-of-00001
 host/model/model.checkpoint.index
 host/model/model.checkpoint.meta
 host/stance_detection/__pycache__/util.cpython-35.pyc
+art_bodies.csv
+statement.csv
+.vscode/settings.json
+host/.vscode/settings.json
+host/__pycache__/data_saving.cpython-36.pyc
+host/__pycache__/news_web_scraping.cpython-36.pyc
