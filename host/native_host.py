@@ -1,3 +1,5 @@
+import logging
+logging.error("Running script")
 import sys
 import json
 import struct
@@ -5,9 +7,10 @@ import data_saving as save_to_CSV
 import news_web_scraping
 import csv
 import random
-# from util import *
-# import tensorflow as tf
-
+logging.error("Doing risky imports")
+from util import *
+import tensorflow as tf
+logging.error("Finished risky imports")
 
 # Function to send a message to chrome.
 def send_message(MSG_DICT):
@@ -26,13 +29,13 @@ def read_message():
 
 query_dict = read_message()
 query = query_dict['text']
-#query = "Can Trump declare a national emergency to build a wall?"
+# query = "Can Trump declare a national emergency to build a wall?"
 
 # %% query seach and save to CSV
 csv_file_path = 'consensus_data.csv'
 csv_columns = ['agency', 'title', 'date', 'article', 'link']
 save_to_CSV.initiate_csv(csv_file_path, csv_columns)
-send_message({"name": "response", "text": "initiated CSV file"})
+#send_message({"name": "response", "text": "initiated CSV file"})
 
 # NYT:
 url_list, date_list = news_web_scraping.google_NYT_links(query)
@@ -40,7 +43,7 @@ title_list, article_list = news_web_scraping.NYT_links_scrape(url_list)
 if title_list and date_list and article_list and url_list:
     news_dicList = save_to_CSV.lists_to_dictList('NYT', title_list, date_list, article_list, url_list)
     save_to_CSV.append_csv(csv_file_path, csv_columns, news_dicList) 
-send_message({"name": "response", "text": "written NYT results"})
+#send_message({"name": "response", "text": "written NYT results"})
 
 # BBC:
 url_list = news_web_scraping.google_BBC_links(query)
@@ -48,7 +51,7 @@ title_list, article_list, date_list = news_web_scraping.BBC_links_scrape(url_lis
 if title_list and date_list and article_list and url_list:
     news_dicList = save_to_CSV.lists_to_dictList('BBC', title_list, date_list, article_list, url_list)
     save_to_CSV.append_csv(csv_file_path, csv_columns, news_dicList)   
-send_message({"name": "response", "text": "written BBC results"})
+#send_message({"name": "response", "text": "written BBC results"})
 
 # AP:
 url_list = news_web_scraping.google_AP_links(query)
@@ -56,7 +59,7 @@ title_list, article_list, date_list = news_web_scraping.AP_links_scrape(url_list
 if title_list and date_list and article_list and url_list:
     news_dicList = save_to_CSV.lists_to_dictList('AP', title_list, date_list, article_list, url_list)
     save_to_CSV.append_csv(csv_file_path, csv_columns, news_dicList)   
-send_message({"name": "response", "text": "written AP results"})
+#send_message({"name": "response", "text": "written AP results"})
 
 # Reuters:
 url_list = news_web_scraping.google_reuters_links(query)
@@ -64,7 +67,7 @@ title_list, article_list, date_list = news_web_scraping.reuters_links_scrape(url
 if title_list and date_list and article_list and url_list:
     news_dicList = save_to_CSV.lists_to_dictList('Reuters', title_list, date_list, article_list, url_list)
     save_to_CSV.append_csv(csv_file_path, csv_columns, news_dicList) 
-send_message({"name": "response", "text": "written reuters results"})
+#send_message({"name": "response", "text": "written reuters results"})
     
 
 # read agency, title, date and url from csv file
@@ -103,58 +106,58 @@ send_message({"name" : "articleURLs", "text" : "sending urls of articles", "urls
 send_message({"name" : "articleResults", "text" : "sending results of articles", "results" : results})
 
 
-# save_to_CSV.format_art_bodies('consensus_data.csv', 'art_bodies.csv', 'statement.csv', 'trump is predudice') # query
+save_to_CSV.format_art_bodies('consensus_data.csv', 'art_bodies.csv', 'statement.csv', 'Boris Johnson going to court?') # query
 
-# # Set file names
-# file_train_instances = "train_stances.csv"
-# file_train_bodies = "train_bodies.csv"
-# file_test_instances = "statement.csv"
-# file_test_bodies = "art_bodies.csv"
-# file_predictions = 'predictions_test.csv'
+# Set file names
+file_train_instances = "train_stances.csv"
+file_train_bodies = "train_bodies.csv"
+file_test_instances = "statement.csv"
+file_test_bodies = "art_bodies.csv"
+file_predictions = 'predictions_test.csv'
 
-# # Initialise hyperparameters
-# # r = random.Random()
-# lim_unigram = 5000
-# target_size = 4
-# hidden_size = 100
+# Initialise hyperparameters
+# r = random.Random()
+lim_unigram = 5000
+target_size = 4
+hidden_size = 100
 
-# # Load data sets
-# raw_train = FNCData(file_train_instances, file_train_bodies)
-# raw_test = FNCData(file_test_instances, file_test_bodies)
+# Load data sets
+raw_train = FNCData(file_train_instances, file_train_bodies)
+raw_test = FNCData(file_test_instances, file_test_bodies)
 
-# # Process data sets
-# feature_size = 10001
-# test_set = pipeline_test(raw_train, raw_test, lim_unigram=lim_unigram)
+# Process data sets
+feature_size = 10001
+test_set = pipeline_test(raw_train, raw_test, lim_unigram=lim_unigram)
 
-# # Define model
+# Define model
 
-# # Create placeholders
-# features_pl = tf.placeholder(tf.float32, [None, feature_size], 'features')
-# keep_prob_pl = tf.placeholder(tf.float32)
+# Create placeholders
+features_pl = tf.placeholder(tf.float32, [None, feature_size], 'features')
+keep_prob_pl = tf.placeholder(tf.float32)
 
-# # Infer batch size
-# batch_size = tf.shape(features_pl)[0]
+# Infer batch size
+batch_size = tf.shape(features_pl)[0]
 
-# # Define multi-layer perceptron
-# hidden_layer = tf.nn.dropout(tf.nn.relu(tf.contrib.layers.linear(features_pl, hidden_size)), keep_prob=keep_prob_pl)
-# logits_flat = tf.nn.dropout(tf.contrib.layers.linear(hidden_layer, target_size), keep_prob=keep_prob_pl)
-# logits = tf.reshape(logits_flat, [batch_size, target_size])
+# Define multi-layer perceptron
+hidden_layer = tf.nn.dropout(tf.nn.relu(tf.contrib.layers.linear(features_pl, hidden_size)), keep_prob=keep_prob_pl)
+logits_flat = tf.nn.dropout(tf.contrib.layers.linear(hidden_layer, target_size), keep_prob=keep_prob_pl)
+logits = tf.reshape(logits_flat, [batch_size, target_size])
 
-# # Define prediction
-# softmaxed_logits = tf.nn.softmax(logits)
-# predict = tf.arg_max(softmaxed_logits, 1)
+# Define prediction
+softmaxed_logits = tf.nn.softmax(logits)
+predict = tf.arg_max(softmaxed_logits, 1)
 
-# # Load model
-# with tf.Session() as sess:
-#     load_model(sess)
-
-
-#     # Predict
-#     test_feed_dict = {features_pl: test_set, keep_prob_pl: 1.0}
-#     test_pred = sess.run(predict, feed_dict=test_feed_dict)
+# Load model
+with tf.Session() as sess:
+    load_model(sess)
 
 
-# # Save predictions
-# save_predictions(test_pred, file_predictions)
+    # Predict
+    test_feed_dict = {features_pl: test_set, keep_prob_pl: 1.0}
+    test_pred = sess.run(predict, feed_dict=test_feed_dict)
+
+
+# Save predictions
+save_predictions(test_pred, file_predictions)
 
 # print("Done!")
