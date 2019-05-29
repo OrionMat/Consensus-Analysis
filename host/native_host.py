@@ -90,10 +90,10 @@ titles = json.dumps(titles_list)
 dates = json.dumps(date_lists)
 urls = json.dumps(url_list)
 
-result_ops = ["Agree", "Disagree", "discusses", "unrelated"]
-for i in range(num_Articles):
-    result_list += [random.choice(result_ops)]
-results = json.dumps(result_list)
+# result_ops = ["Agree", "Disagree", "discusses", "unrelated"]
+# for i in range(num_Articles):
+#     result_list += [random.choice(result_ops)]
+# results = json.dumps(result_list)
 
 
 
@@ -103,8 +103,6 @@ send_message({"name" : "articleAgencies", "text" : "sending agencies of articles
 send_message({"name" : "articleTitles", "text" : "sending titles of articles", "titles" : titles})
 send_message({"name" : "articleDates", "text" : "sending dates of articles", "dates" : dates})
 send_message({"name" : "articleURLs", "text" : "sending urls of articles", "urls" : urls})
-send_message({"name" : "articleResults", "text" : "sending results of articles", "results" : results})
-
 
 save_to_CSV.format_art_bodies('consensus_data.csv', 'art_bodies.csv', 'statement.csv', 'Boris Johnson going to court?') # query
 
@@ -159,5 +157,12 @@ with tf.Session() as sess:
 
 # Save predictions
 save_predictions(test_pred, file_predictions)
+
+result_list = []
+for instance in test_pred:
+    result_list = result_list + [label_ref_rev[instance]]
+results = json.dumps(result_list)
+send_message({"name" : "articleResults", "text" : "sending results of articles", "results" : results})
+
 
 # print("Done!")
