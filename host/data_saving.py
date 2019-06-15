@@ -58,7 +58,7 @@ def lists_to_dictList(agency, title_list, date_list, article_list, url_list):
 def format_art_bodies(consensus_data, art_bodies, statement_file, statement):
     # read article bodies from csv file
     article_list = []
-    with open(consensus_data, mode='r', errors='ignore') as csv_file: 
+    with open(consensus_data, mode='r', encoding="utf-8", errors='ignore') as csv_file: 
         csv_reader = csv.DictReader(csv_file)
         for row in csv_reader:
             article_list += [row['article']] 
