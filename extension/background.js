@@ -53,7 +53,7 @@ chrome.contextMenus.onClicked.addListener(function(clickedData){
             type: "basic",
             iconUrl: "images/blueTick.png",
             title: "Done!",
-            message: "The results are in, check em out legend."
+            message: "The results are in!"
           };
           chrome.notifications.create('doneNotif', notifOptions);
         }
