@@ -26,9 +26,13 @@ $(function(){
         
         var summaryTable = tableHead + tableMid + tableEnd;
         $('#tablePrint').html(summaryTable);
+
+        if(num_Articles == 0){
+            $("#spinner").attr("class", "loader");
+        }
     });
 
-    // displays an article title in the tabel
+    // displays article title, date, url, agency and result in the tabel
     // gets title value from storage to display when popup opened
     chrome.storage.sync.get(['titles', 'dates', 'urls', 'agencies', 'results'], function(result){ // can change to array to get more than just title i.e ['title', 'link']
         agency_array = JSON.parse(result.agencies)
@@ -52,6 +56,20 @@ $(function(){
                     break;
                 case 'Reuters':
                     $('#agency' + String(i)).prepend("<img src=\"images\\R_image.jpg\" alt=\"BBC Logo\" width=\"48\" height=\"48\">")
+                    break;
+                default:
+                  // code block
+              }
+
+              switch(result_array[i]) {
+                case 'agree':
+                    $('#result' + String(i)).css("background-color", "#B5FFBF");
+                    break;
+                case 'disagree':
+                    $('#result' + String(i)).css("background-color", "#FFB3B3");
+                    break;
+                case 'discusses':
+                    $('#result' + String(i)).css("background-color", "#FBFFB3");
                     break;
                 default:
                   // code block
