@@ -1,5 +1,4 @@
 import logging
-logging.error("Running script")
 import sys
 import json
 import struct
@@ -7,10 +6,10 @@ import data_saving as save_to_CSV
 import news_web_scraping
 import csv
 import random
-logging.error("Doing risky imports")
 from util import *
 import tensorflow as tf
-logging.error("Finished risky imports")
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+import nltk
 
 # Function to send a message to chrome.
 def send_message(MSG_DICT):
@@ -27,9 +26,44 @@ def read_message():
     text_dict = json.loads(text_decoded)
     return text_dict
 
+
+# input: text (string) 
+# output: list of sentences in text and list of corresponding corresponding sentiment scores
+# sentiment is rating between -4 (EXTREAMLY negative) and 4 (EXTREAMLY positive)
+def calcSentiment(text):
+    analyzer = SentimentIntensityAnalyzer()
+    sentence_list = nltk.sent_tokenize(text)
+    sentiment_list = [] 
+    if not sentence_list:
+        return sentence_list, sentiment_list
+        #raise ValueError('no sentences in the text given -> 0/0')
+    for sentence in sentence_list:
+            vs = analyzer.polarity_scores(sentence)
+            compound_sentiment = round(vs["compound"]*4, 4)
+            sentiment_list = sentiment_list + [compound_sentiment]
+    return sentence_list, sentiment_list
+
+def results_calculation(sentiment_list):
+    sentiment_array = np.round(np.asarray(sentiment_list),  decimals=3, out=None)
+    sentiment_avg = np.round(np.mean(sentiment_array),  decimals=3, out=None)
+    sentiment_avg_abs = np.round(np.mean(np.absolute(sentiment_array)),  decimals=3, out=None)
+    sentiment_var = np.round(np.var(sentiment_array),  decimals=3, out=None)
+    sentiment_max = np.round(np.max(sentiment_array),  decimals=3, out=None)
+    sentiment_min = np.round(np.min(sentiment_array),  decimals=3, out=None)
+    return sentiment_avg, sentiment_avg_abs, sentiment_var, sentiment_max, sentiment_min
+
+
 query_dict = read_message()
 query = query_dict['text']
 # query = "Can Trump declare a national emergency to build a wall?"
+
+sentence_list, sentiment_list = calcSentiment(query)
+
+sentiment_avg, sentiment_avg_abs, sentiment_var, sentiment_max, sentiment_min = results_calculation(sentiment_list)
+
+sent_result_list = [sentiment_avg] + [sentiment_avg_abs] + [sentiment_max] + [sentiment_min] + [sentiment_var]
+sent_results = json.dumps(sent_result_list)
+send_message({"name" : "sentimentResults", "text" : "sending sentiment of articles", "sentiment" : sent_results})
 
 # %% query seach and save to CSV
 csv_file_path = 'consensus_data.csv'
@@ -75,7 +109,6 @@ agency_list = []
 titles_list = []
 date_lists = []
 url_list = []
-result_list = []
 with open('consensus_data.csv', mode='r') as csv_file:
     csv_reader = csv.DictReader(csv_file)
     for row in csv_reader:
@@ -89,14 +122,6 @@ agencies = json.dumps(agency_list)
 titles = json.dumps(titles_list) 
 dates = json.dumps(date_lists)
 urls = json.dumps(url_list)
-
-# result_ops = ["Agree", "Disagree", "discusses", "unrelated"]
-# for i in range(num_Articles):
-#     result_list += [random.choice(result_ops)]
-# results = json.dumps(result_list)
-
-
-
  
 send_message({"name" : "articleNumbers", "text" : "sending numbers of articles", "num_Articles" : str(num_Articles)})
 send_message({"name" : "articleAgencies", "text" : "sending agencies of articles", "agencies" : agencies})
